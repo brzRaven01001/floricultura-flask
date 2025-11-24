@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho - Magnólia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <style>
+        .carrinho-itens {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .carrinho-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+            gap: 20px;
+        }
+        .carrinho-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .item-info {
+            flex: 1;
+        }
+        .item-info h3 {
+            margin: 0 0 10px 0;
+            color: #3a3539;
+        }
+        .btn-remover {
+            background: #ff4444;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn-remover:hover {
+            background: #cc0000;
+        }
+        .carrinho-total {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+        .btn-finalizar {
+            background: #809678;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .btn-finalizar:hover {
+            background: #6b8e6b;
+        }
+        .carrinho-vazio {
+            text-align: center;
+            padding: 50px;
+        }
+        .btn-continuar {
+            background: #40383f;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        .flash-message {
+            background: #809678;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="pagina-categoria">
+    <header class="nav-magnolia">
+        <div class="nav-container">
+            <div class="nav-top">
+                <div class="nav-search">
+                    <span class="material-symbols-outlined icon_search">search</span>
+                    <input type="text" placeholder="Pesquisar">
+                </div>
+                
+                <div class="nav-logo">
+                    <img src="{{ url_for('static', filename='images/LogoFloricultura.png') }}" alt="Ateliê Magnólia" class="nav-logo-img">
+                </div>
+
+                <div class="nav-account">
+                    <a href="{% if session.user_email %}{{ url_for('historico') }}{% else %}{{ url_for('login') }}{% endif %}" class="nav-account-btn">
+                        <span class="material-symbols-outlined icon_user">person</span>
+                    </a>
+                    <a href="{{ url_for('carrinho') }}" class="nav-account-btn" style="margin-left: 15px;">
+                        <span class="material-symbols-outlined">shopping_cart</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-divider"></div>
+
+            <nav class="nav-menu">
+                <a href="{{ url_for('produtos_aniversario') }}">Aniversário</a>
+                <a href="{{ url_for('produtos_arranjos') }}">Arranjos</a>
+                <a href="{{ url_for('produtos_buques') }}">Buquês</a>
+                <a href="{{ url_for('produtos_coroa') }}">Coroa</a>
+                <a href="{{ url_for('produtos_kit_romantico') }}">Kit Romântico</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="categoria-main">
+        <section class="categoria-header">
+            <h1 class="categoria-titulo">Meu Carrinho</h1>
+            <div class="categoria-linha"></div>
+        </section>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% if carrinho %}
+        <div class="carrinho-itens">
+            {% for item in carrinho %}
+            <div class="carrinho-item">
+                <img src="{{ url_for('static', filename='images/' + item.imagem) }}" alt="{{ item.nome }}">
+                <div class="item-info">
+                    <h3>{{ item.nome }}</h3>
+                    <p>R$ {{ "%.2f"|format(item.preco) }}</p>
+                    <p>Quantidade: {{ item.quantidade }}</p>
+                    <p>Subtotal: R$ {{ "%.2f"|format(item.preco * item.quantidade) }}</p>
+                </div>
+                <a href="{{ url_for('remover_carrinho', produto_id=item.id) }}" class="btn-remover">Remover</a>
+            </div>
+            {% endfor %}
+            
+            <div class="carrinho-total">
+                <h3>Total: R$ {{ "%.2f"|format(total) }}</h3>
+                <a href="{{ url_for('finalizar_pedido') }}" class="btn-finalizar">Finalizar Pedido</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="carrinho-vazio">
+            <p>Seu carrinho está vazio!</p>
+            <a href="{{ url_for('home') }}" class="btn-continuar">Continuar Comprando</a>
+        </div>
+        {% endif %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-payments">
+                <p>Formas de pagamento</p>
+                <img src="{{ url_for('static', filename='images/pagamento.png') }}" alt="Formas de pagamento">
+            </div>
+            
+            <div class="footer-links">
+                <p>Termos de uso</p>
+                <p>Política de Privacidade</p>
+            </div>
+            
+            <div class="footer-contact">
+                <p>Contato: (11) 0000-0000</p>
+                <p>Endereço: Rua das Flores, 000</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 MAGNÓLIA</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <title>Ateliê Magnólia</title>
+</head>
+
+<body>
+    <header class="nav-magnolia">
+        <div class="nav-container">
+            <div class="nav-top">
+                <div class="nav-search">
+                    <span class="material-symbols-outlined icon_search">search</span>
+                    <input type="text" placeholder="Pesquisar">
+                </div>
+                
+                <div class="nav-logo">
+                    <img src="{{ url_for('static', filename='images/LogoFloricultura.png') }}" alt="Ateliê Magnólia" class="nav-logo-img">
+                </div>
+
+                <div class="nav-account">
+                    {% if session.user_email %}
+                        <a href="{{ url_for('historico') }}" class="nav-account-btn">
+                            <span class="material-symbols-outlined icon_user">person</span>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="nav-account-btn">
+                            <span class="material-symbols-outlined icon_user">person</span>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="nav-divider"></div>
+
+            <nav class="nav-menu">
+                <a href="{{ url_for('produtos_aniversario') }}">Aniversário</a>
+                <a href="{{ url_for('produtos_arranjos') }}">Arranjos</a>
+                <a href="{{ url_for('produtos_buques') }}">Buquês</a>
+                <a href="{{ url_for('produtos_coroa') }}">Coroa</a>
+                <a href="{{ url_for('produtos_kit_romantico') }}">Kit Romântico</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="banner-principal">
+            <div class="imagem-banner-wrapper">
+                <img src="{{ url_for('static', filename='images/banner.png') }}" alt="Ateliê Magnólia - Flores e arranjos" class="imagem-banner">
+            </div>
+
+            <div class="faixa-frase">
+                <p>Cuidamos do que você quer dizer.</p>
+                <p class="faixa-frase-2">Magnólia, a arte de florir momentos.</p>
+            </div>
+        </section>
+
+        <div class="pop-divider"></div>
+
+        <section class="secao-populares">
+            <div class="pop-header">
+                <h2>POPULARES</h2>
+            </div>
+
+            <div class="pop-slider">
+                <button class="pop-arrow esquerda">&#10094;</button>
+
+                <div class="pop-cards">
+                    <article class="pop-card">
+                        <img src="{{ url_for('static', filename='images/lindo-arranjo.jpg') }}" alt="Arranjo de flores 1">
+                    </article>
+
+                    <article class="pop-card">
+                        <img src="{{ url_for('static', filename='images/lindo-buque-de-flores.jpg') }}" alt="Arranjo de flores 2">
+                    </article>
+
+                    <article class="pop-card">
+                        <img src="{{ url_for('static', filename='images/um-lindo-buque.jpg') }}" alt="Arranjo de flores 3">
+                    </article>
+                </div>
+
+                <button class="pop-arrow direita" aria-label="Próximo">&#10095;</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-payments">
+                <p>Formas de pagamento</p>
+                <img src="{{ url_for('static', filename='images/pagamento.png') }}" alt="Formas de pagamento">
+            </div>
+
+            <div class="footer-links">
+                <p>Termos de uso</p>
+                <p>Política de Privacidade</p>
+            </div>
+
+            <div class="footer-contact">
+                <p>Contato: (11) 0000-0000</p>
+                <p>Endereço: Rua das Flores, 000</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 MAGNÓLIA</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

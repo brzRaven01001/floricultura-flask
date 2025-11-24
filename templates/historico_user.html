@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/historico_user.css') }}">
+    <title>Minha conta | Ateliê Magnólia</title>
+</head>
+
+<body class="conta-page">
+    <header class="nav-magnolia">
+        <div class="nav-container">
+            <div class="nav-top">
+                <div class="nav-search">
+                    <span class="material-symbols-outlined icon_search">search</span>
+                    <input type="text" placeholder="Pesquisar">
+                </div>
+                
+                <div class="nav-logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Ateliê Magnólia" class="nav-logo-img">
+                </div>
+
+                <div class="nav-account">
+                    {% if session.user_email %}
+                        <a href="{{ url_for('historico') }}" class="nav-account-btn">
+                            <span class="material-symbols-outlined icon_user">person</span>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="nav-account-btn">
+                            <span class="material-symbols-outlined icon_user">person</span>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="nav-divider"></div>
+
+            <nav class="nav-menu">
+                <a href="{{ url_for('produtos_aniversario') }}">Aniversário</a>
+                <a href="{{ url_for('produtos_arranjos') }}">Arranjos</a>
+                <a href="{{ url_for('produtos_buques') }}">Buquês</a>
+                <a href="{{ url_for('produtos_coroa') }}">Coroa</a>
+                <a href="{{ url_for('produtos_kit_romantico') }}">Kit Romântico</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="conta-main">
+        <section class="conta-header">
+            <h1 class="conta-titulo">Minha conta</h1>
+            <div class="conta-linha"></div>
+        </section>
+
+        <section class="conta-layout">
+            <div class="conta-perfil">
+                <div class="conta-avatar"></div>
+                <p class="conta-ola">Olá, {% if session.user_email %}{{ session.user_email }}{% else %}User{% endif %}!</p>
+                
+                <!-- Botão Sair adicionado aqui -->
+                <div class="conta-sair">
+                    <a href="{{ url_for('logout') }}" class="btn-sair">
+                        <span class="material-symbols-outlined">logout</span>
+                        Sair
+                    </a>
+                </div>
+            </div>
+
+            <div class="conta-historico">
+                <h2 class="conta-subtitulo">Histórico de compra</h2>
+
+                <table class="historico-tabela">
+                    <thead>
+                        <tr>
+                            <th>DATA</th>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="conta-footer">
+        <p>© 2025 MAGNÓLIA</p>
+    </footer>
+</body>
+</html>

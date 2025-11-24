@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/criar_conta.css') }}">
+    <title>Cadastro | Ateliê Magnólia</title>
+</head>
+
+<body class="cadastro-page">
+    <header class="nav-magnolia">
+        <div class="nav-container">
+            <div class="nav-top">
+                <div class="nav-search">
+                    <span class="material-symbols-outlined icon_search">search</span>
+                    <input type="text" placeholder="Pesquisar">
+                </div>
+                
+                <div class="nav-logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Ateliê Magnólia" class="nav-logo-img">
+                </div>
+
+                <div class="nav-account">
+                    {% if session.user_email %}
+                        <a href="{{ url_for('historico') }}" class="nav-account-btn">
+                            <span class="material-symbols-outlined icon_user">person</span>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="nav-account-btn">
+                            <span class="material-symbols-outlined icon_user">person</span>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="nav-divider"></div>
+
+            <nav class="nav-menu">
+                <a href="{{ url_for('produtos_aniversario') }}">Aniversário</a>
+                <a href="{{ url_for('produtos_arranjos') }}">Arranjos</a>
+                <a href="{{ url_for('produtos_buques') }}">Buquês</a>
+                <a href="{{ url_for('produtos_coroa') }}">Coroa</a>
+                <a href="{{ url_for('produtos_kit_romantico') }}">Kit Romântico</a>
+            </nav>
+        </div>
+    </header>
+
+    <a href="{{ url_for('home') }}" class="login-back">&lt; Voltar</a>
+
+    <main class="cadastro-main">
+        <section class="cadastro-section">
+            <div class="cadastro-card">
+                <h1 class="cadastro-title">Cadastro</h1>
+
+                <form class="cadastro-form" action="{{ url_for('criar_conta') }}" method="post">
+                    <label for="usuario">Usuário</label>
+                    <input type="text" id="usuario" name="usuario" required>
+
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" required>
+
+                    <div class="cadastro-links">
+                        <a href="{{ url_for('login') }}">Já tenho uma conta</a>
+                    </div>
+
+                    <button type="submit" class="cadastro-button">Cadastrar</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="cadastro-footer">
+        <p>© 2025 MAGNÓLIA</p>
+    </footer>
+</body>
+</html>

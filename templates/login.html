@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Ateliê Magnólia</title>
+    <style>
+        :root {
+            --primary-color: #8a6d3b;
+            --secondary-color: #d4b88c;
+            --accent-color: #a8d5ba;
+            --text-color: #333;
+            --light-color: #f9f5f0;
+            --error-color: #e74c3c;
+            --success-color: #2ecc71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), 
+                              url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%23d4b88c" opacity="0.2" d="M50,30 C60,20 80,25 80,40 C80,55 60,60 50,50 C40,60 20,55 20,40 C20,25 40,20 50,30 Z"/></svg>');
+            background-size: 150px;
+        }
+        
+        .login-back {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 4px;
+        }
+        
+        .login-back:hover {
+            background-color: rgba(138, 109, 59, 0.1);
+            transform: translateX(-5px);
+        }
+        
+        .login-main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .login-section {
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .login-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            font-size: 28px;
+            font-weight: 600;
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .login-form label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .login-form input {
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .login-form input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(138, 109, 59, 0.2);
+        }
+        
+        .login-form input:invalid:not(:focus):not(:placeholder-shown) {
+            border-color: var(--error-color);
+        }
+        
+        .login-links {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        
+        .login-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .login-links a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+        
+        .login-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .login-button:hover {
+            background-color: #7a5d2b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138, 109, 59, 0.3);
+        }
+        
+        .login-button:active {
+            transform: translateY(0);
+        }
+        
+        .login-footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-color);
+            font-size: 14px;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Decoração floral */
+        .floral-decoration {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        .floral-1 {
+            top: 10%;
+            left: 5%;
+            transform: rotate(15deg);
+        }
+        
+        .floral-2 {
+            bottom: 10%;
+            right: 5%;
+            transform: rotate(-15deg);
+        }
+        
+        /* Responsividade */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 30px 20px;
+            }
+            
+            .login-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .login-links a {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body class="login-page">
+    <a href="{{ url_for('home') }}" class="login-back">← Voltar</a>
+    
+    <div class="floral-decoration floral-1">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50,30 C60,20 80,25 80,40 C80,55 60,60 50,50 C40,60 20,55 20,40 C20,25 40,20 50,30 Z" fill="var(--primary-color)"/>
+        </svg>
+    </div>
+    
+    <div class="floral-decoration floral-2">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50,30 C60,20 80,25 80,40 C80,55 60,60 50,50 C40,60 20,55 20,40 C20,25 40,20 50,30 Z" fill="var(--primary-color)"/>
+        </svg>
+    </div>
+    
+    <main class="login-main">
+        <section class="login-section">
+            <div class="login-card">
+                <h1 class="login-title">Login</h1>
+                
+                <form class="login-form" method="POST" action="{{ url_for('login') }}">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required placeholder="seu@email.com">
+                    
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="senha" name="senha" required placeholder="Sua senha">
+                    
+                    <div class="login-links">
+                        <a href="#">Esqueci minha senha</a>
+                        <a href="{{ url_for('criar_conta') }}">Criar conta</a>
+                    </div>
+                    
+                    <button type="submit" class="login-button">Entrar</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="login-footer">
+        <p>© 2025 Floricultura Magnólia</p>
+    </footer>
+</body>
+</html>

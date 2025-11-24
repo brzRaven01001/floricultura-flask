@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aniversario.css') }}">
+    <title>Kit Romântico | Ateliê Magnólia</title>
+    <style>
+        .produto-card {
+            text-align: center;
+            padding: 15px;
+        }
+        .produto-card h3 {
+            margin: 10px 0;
+            color: #3a3539;
+            font-size: 16px;
+        }
+        .produto-preco {
+            font-weight: bold;
+            color: #809678;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .btn-detalhes {
+            display: inline-block;
+            padding: 8px 15px;
+            background: #809678;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            margin: 5px;
+        }
+        .btn-detalhes:hover {
+            background: #6b8e6b;
+        }
+    </style>
+</head>
+
+<body class="pagina-categoria">
+    <header class="nav-magnolia">
+        <div class="nav-container">
+            <div class="nav-top">
+                <div class="nav-search">
+                    <span class="material-symbols-outlined icon_search">search</span>
+                    <input type="text" placeholder="Pesquisar">
+                </div>
+                
+                <div class="nav-logo">
+                    <img src="{{ url_for('static', filename='images/LogoFloricultura.png') }}" alt="Ateliê Magnólia" class="nav-logo-img">
+                </div>
+
+                <div class="nav-account">
+                    <a href="{% if session.user_email %}{{ url_for('historico') }}{% else %}{{ url_for('login') }}{% endif %}" class="nav-account-btn">
+                        <span class="material-symbols-outlined icon_user">person</span>
+                    </a>
+                    {% if session.user_email %}
+                    <a href="{{ url_for('carrinho') }}" class="nav-account-btn" style="margin-left: 15px;">
+                        <span class="material-symbols-outlined">shopping_cart</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="nav-divider"></div>
+
+            <nav class="nav-menu">
+                <a href="{{ url_for('produtos_aniversario') }}">Aniversário</a>
+                <a href="{{ url_for('produtos_arranjos') }}">Arranjos</a>
+                <a href="{{ url_for('produtos_buques') }}">Buquês</a>
+                <a href="{{ url_for('produtos_coroa') }}">Coroa</a>
+                <a href="{{ url_for('produtos_kit_romantico') }}">Kit Romântico</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="categoria-main">
+        <section class="categoria-header">
+            <h1 class="categoria-titulo">Kit Romântico</h1>
+            <div class="categoria-linha"></div>
+        </section>
+
+        <section class="categoria-grid">
+            {% for produto in produtos %}
+            <div class="categoria-card">
+                <img src="{{ url_for('static', filename='images/' + produto.imagem) }}" alt="{{ produto.nome }}">
+                <div class="produto-card">
+                    <h3>{{ produto.nome }}</h3>
+                    <p class="produto-preco">R$ {{ "%.2f"|format(produto.preco) }}</p>
+                    <a href="{{ url_for('ver_produto', produto_id=produto.id) }}" class="btn-detalhes">Ver Detalhes</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="sem-produtos">
+                <p>Nenhum produto disponível nesta categoria.</p>
+            </div>
+            {% endfor %}
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-payments">
+                <p>Formas de pagamento</p>
+                <img src="{{ url_for('static', filename='images/pagamento.png') }}" alt="Formas de pagamento">
+            </div>
+            
+            <div class="footer-links">
+                <p>Termos de uso</p>
+                <p>Política de Privacidade</p>
+            </div>
+            
+            <div class="footer-contact">
+                <p>Contato: (11) 0000-0000</p>
+                <p>Endereço: Rua das Flores, 000</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 MAGNÓLIA</p>
+        </div>
+    </footer>
+</body>
+</html>
