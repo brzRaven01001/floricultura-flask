@@ -4,7 +4,6 @@ from typing import List, Optional
 from datetime import datetime
 from app.models.data_store import PEDIDOS, salvar_dados
 
-
 @dataclass
 class ItemPedido:
     id: int
@@ -12,7 +11,6 @@ class ItemPedido:
     preco: float
     imagem: str
     quantidade: int
-
 
 @dataclass
 class Pedido:
@@ -22,8 +20,8 @@ class Pedido:
     itens: List[ItemPedido]
     total: float
     data: str
+    data_entrega: str
     status: str
-
 
 def _item_from_dict(d: dict) -> ItemPedido:
     return ItemPedido(
@@ -34,7 +32,6 @@ def _item_from_dict(d: dict) -> ItemPedido:
         quantidade=d['quantidade']
     )
 
-
 def _from_dict(d: dict) -> Pedido:
     itens = [_item_from_dict(i) for i in d['itens']]
     return Pedido(
@@ -44,19 +41,25 @@ def _from_dict(d: dict) -> Pedido:
         itens=itens,
         total=d['total'],
         data=d['data'],
+        data_entrega=d.get('data_entrega', 'Não informada'),
         status=d['status']
     )
-
 
 def listar_pedidos_cliente(email: str) -> List[Pedido]:
     return [_from_dict(p) for p in PEDIDOS if p['cliente_email'] == email]
 
-
 def listar_todos() -> List[Pedido]:
     return [_from_dict(p) for p in PEDIDOS]
 
+# --- NOVA FUNÇÃO NECESSÁRIA PARA O CANCELAMENTO ---
+def obter_pedido(pedido_id: int) -> Optional[Pedido]:
+    for p in PEDIDOS:
+        if p['id'] == pedido_id:
+            return _from_dict(p)
+    return None
+# --------------------------------------------------
 
-def criar_pedido(cliente_email: str, cliente_nome: str, itens_carrinho: List[dict]) -> Pedido:
+def criar_pedido(cliente_email: str, cliente_nome: str, itens_carrinho: List[dict], data_entrega: str) -> Pedido:
     novo_id = len(PEDIDOS) + 1
     total = sum(item['preco'] * item['quantidade'] for item in itens_carrinho)
 
@@ -67,16 +70,16 @@ def criar_pedido(cliente_email: str, cliente_nome: str, itens_carrinho: List[dic
         'itens': itens_carrinho.copy(),
         'total': total,
         'data': datetime.now().strftime('%d/%m/%Y %H:%M'),
+        'data_entrega': data_entrega,
         'status': 'Confirmado'
     }
-
+    
     PEDIDOS.append(pedido_dict)
     salvar_dados()
 
     return _from_dict(pedido_dict)
 
-
-def alterar_status(pedido_id: int, novo_status: str) -> Optional[Pedido]:
+def alterar_status(pedido_id: int, novo_status: str):
     for p in PEDIDOS:
         if p['id'] == pedido_id:
             p['status'] = novo_status
@@ -84,6 +87,5 @@ def alterar_status(pedido_id: int, novo_status: str) -> Optional[Pedido]:
             return _from_dict(p)
     return None
 
-
-def calcular_faturamento_total() -> float:
+def calcular_faturamento_total():
     return sum(p['total'] for p in PEDIDOS)

@@ -11,131 +11,100 @@
             display: flex;
             gap: 40px;
             max-width: 1000px;
-            margin: 0 auto;
+            margin: 40px auto;
+            padding: 0 20px;
             align-items: flex-start;
         }
-        .produto-imagem {
-            flex: 1;
-        }
+        .produto-imagem { flex: 1; }
         .produto-imagem img {
             width: 100%;
-            max-width: 400px;
             border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        .produto-info {
-            flex: 1;
-        }
-        .produto-info h1 {
-            color: #3a3539;
-            margin-bottom: 15px;
-        }
-        .produto-descricao {
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            color: #666;
-        }
+        .produto-info { flex: 1; }
+        .produto-info h1 { color: #3a3539; margin-bottom: 15px; }
+        .produto-descricao { font-size: 16px; line-height: 1.6; margin-bottom: 20px; color: #666; }
         .produto-preco {
             font-size: 24px;
-            font-weight: bold;
             color: #809678;
-            margin-bottom: 25px;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
+        /* Novo Estilo para Estoque */
+        .estoque-baixo { color: #e67e22; font-weight: bold; margin-bottom: 15px; }
+        .estoque-esgotado { color: #c0392b; font-weight: bold; margin-bottom: 15px; font-size: 1.2em; }
+        
         .btn-comprar {
-            background: #809678;
+            display: inline-block;
+            background-color: #809678;
             color: white;
-            padding: 12px 30px;
+            padding: 15px 30px;
             text-decoration: none;
             border-radius: 5px;
-            font-size: 16px;
-            display: inline-block;
+            font-size: 18px;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
         }
-        .btn-comprar:hover {
-            background: #6b8e6b;
-        }
+        .btn-comprar:hover { background-color: #6b8064; }
+        .btn-disabled { background-color: #ccc; cursor: not-allowed; pointer-events: none; }
     </style>
 </head>
-<body class="pagina-categoria">
+
+<body>
     <header class="nav-magnolia">
         <div class="nav-container">
-            <div class="nav-top">
-                <div class="nav-search">
-                    <span class="material-symbols-outlined icon_search">search</span>
-                    <input type="text" placeholder="Pesquisar">
-                </div>
-                
-                <div class="nav-logo">
-                    <img src="{{ url_for('static', filename='images/LogoFloricultura.png') }}" alt="Ateliê Magnólia" class="nav-logo-img">
-                </div>
-
-                <div class="nav-account">
-                    <a href="{% if session.user_email %}{{ url_for('historico') }}{% else %}{{ url_for('login') }}{% endif %}" class="nav-account-btn">
-                        <span class="material-symbols-outlined icon_user">person</span>
-                    </a>
-                    {% if session.user_email %}
-                    <a href="{{ url_for('carrinho') }}" class="nav-account-btn" style="margin-left: 15px;">
-                        <span class="material-symbols-outlined">shopping_cart</span>
-                    </a>
-                    {% endif %}
-                </div>
+            <div class="nav-logo">
+                <a href="{{ url_for('home') }}" style="color: white; text-decoration: none;">&larr; Voltar para Home</a>
             </div>
-
-            <div class="nav-divider"></div>
-
-            <nav class="nav-menu">
-                <a href="{{ url_for('produtos_aniversario') }}">Aniversário</a>
-                <a href="{{ url_for('produtos_arranjos') }}">Arranjos</a>
-                <a href="{{ url_for('produtos_buques') }}">Buquês</a>
-                <a href="{{ url_for('produtos_coroa') }}">Coroa</a>
-                <a href="{{ url_for('produtos_kit_romantico') }}">Kit Romântico</a>
-            </nav>
         </div>
     </header>
 
-    <main class="categoria-main">
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div style="max-width: 800px; margin: 20px auto; text-align: center;">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" style="padding: 10px; background: #f8d7da; color: #721c24; border-radius: 5px;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
         <div class="detalhes-produto">
             <div class="produto-imagem">
                 <img src="{{ url_for('static', filename='images/' + produto.imagem) }}" alt="{{ produto.nome }}">
             </div>
+            
             <div class="produto-info">
                 <h1>{{ produto.nome }}</h1>
                 <p class="produto-descricao">{{ produto.descricao }}</p>
                 <p class="produto-preco">R$ {{ "%.2f"|format(produto.preco) }}</p>
                 
-                {% if session.user_email %}
-                <a href="{{ url_for('adicionar_carrinho', produto_id=produto.id) }}" class="btn-comprar">
-                    Adicionar ao Carrinho
-                </a>
+                {% if produto.quantidade > 0 %}
+                    {% if produto.quantidade < 5 %}
+                        <p class="estoque-baixo">Corra! Restam apenas {{ produto.quantidade }} unidades.</p>
+                    {% else %}
+                        <p style="color: green;">Em estoque: {{ produto.quantidade }}</p>
+                    {% endif %}
+
+                    {% if session.user_email %}
+                        <a href="{{ url_for('adicionar_carrinho', produto_id=produto.id) }}" class="btn-comprar">
+                            Adicionar ao Carrinho
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="btn-comprar">
+                            Faça Login para Comprar
+                        </a>
+                    {% endif %}
                 {% else %}
-                <a href="{{ url_for('login') }}" class="btn-comprar">
-                    Faça Login para Comprar
-                </a>
+                    <p class="estoque-esgotado">Produto Esgotado</p>
+                    <button class="btn-comprar btn-disabled">Indisponível</button>
                 {% endif %}
             </div>
         </div>
     </main>
-
-    <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-payments">
-                <p>Formas de pagamento</p>
-                <img src="{{ url_for('static', filename='images/pagamento.png') }}" alt="Formas de pagamento">
-            </div>
-            
-            <div class="footer-links">
-                <p>Termos de uso</p>
-                <p>Política de Privacidade</p>
-            </div>
-            
-            <div class="footer-contact">
-                <p>Contato: (11) 0000-0000</p>
-                <p>Endereço: Rua das Flores, 000</p>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>© 2025 MAGNÓLIA</p>
-        </div>
-    </footer>
 </body>
 </html>

@@ -3,185 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrinho - Magnólia</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <title>Seu Carrinho | Ateliê Magnólia</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    
     <style>
-        .carrinho-itens {
-            max-width: 800px;
-            margin: 0 auto;
+        /* === ESTILOS INTERNOS (BLINDADOS) === */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+
+        /* Cabeçalho */
+        .nav-magnolia {
+            background-color: #40383f;
+            padding: 15px 20px;
+            color: #f5f1e7;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-voltar {
+            color: #f5f1e7;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+        .btn-voltar:hover { color: #809678; }
+
+        /* Conteúdo Principal */
+        .carrinho-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            width: 100%;
+            flex: 1;
+        }
+
+        h1.titulo {
+            text-align: center;
+            color: #40383f;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            position: relative;
+        }
+        
+        /* Lista de Itens */
+        .carrinho-lista {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
         .carrinho-item {
             display: flex;
             align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid #ddd;
+            padding: 25px;
+            border-bottom: 1px solid #f0f0f0;
             gap: 20px;
         }
-        .carrinho-item img {
-            width: 100px;
-            height: 100px;
+        .carrinho-item:last-child { border-bottom: none; }
+
+        .item-img {
+            width: 90px;
+            height: 90px;
             object-fit: cover;
             border-radius: 8px;
+            border: 1px solid #eee;
         }
-        .item-info {
-            flex: 1;
-        }
-        .item-info h3 {
-            margin: 0 0 10px 0;
-            color: #3a3539;
-        }
+
+        .item-info { flex: 1; }
+        .item-info h3 { font-size: 1.2rem; color: #333; margin-bottom: 5px; }
+        .item-detalhe { color: #666; font-size: 0.95rem; }
+        .item-total { color: #809678; font-weight: bold; margin-top: 5px; font-size: 1.1rem; }
+
         .btn-remover {
-            background: #ff4444;
-            color: white;
             padding: 8px 15px;
+            border: 1px solid #ffadad;
+            color: #d63031;
+            background: #fff5f5;
+            border-radius: 20px;
             text-decoration: none;
-            border-radius: 5px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
         }
-        .btn-remover:hover {
-            background: #cc0000;
+        .btn-remover:hover { background: #d63031; color: white; border-color: #d63031; }
+
+        /* Resumo e Agendamento */
+        .carrinho-resumo {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
-        .carrinho-total {
-            text-align: center;
-            margin-top: 30px;
+
+        .resumo-linha {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .valor-total {
+            font-size: 2rem;
+            color: #40383f;
+            font-weight: bold;
+        }
+
+        /* Formulário de Data */
+        .form-agendamento {
+            background-color: #f8f9fa;
             padding: 20px;
-            background: #f5f5f5;
             border-radius: 8px;
+            border: 1px solid #eee;
+            margin-top: 20px;
         }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        
+        .input-group small {
+            display: block;
+            color: #e67e22; /* Laranja para aviso */
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .input-data {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            color: #333;
+            background: white;
+            cursor: pointer;
+        }
+
         .btn-finalizar {
-            background: #809678;
+            background-color: #809678;
             color: white;
-            padding: 12px 30px;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
             text-decoration: none;
-            border-radius: 5px;
-            font-size: 16px;
-            margin-top: 10px;
-            display: inline-block;
+            display: block;
+            width: 100%;
+            text-align: center;
         }
         .btn-finalizar:hover {
-            background: #6b8e6b;
+            background-color: #6b8064;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
+
+        /* Alertas */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+        .alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+
+        /* Carrinho Vazio */
         .carrinho-vazio {
             text-align: center;
-            padding: 50px;
+            padding: 60px 20px;
+            color: #888;
         }
-        .btn-continuar {
-            background: #40383f;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-            display: inline-block;
+        .carrinho-vazio .material-symbols-outlined {
+            font-size: 80px;
+            margin-bottom: 20px;
+            color: #ddd;
         }
-        .flash-message {
-            background: #809678;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
+        
+        /* Footer Simples */
+        .site-footer {
+            margin-top: auto;
             text-align: center;
+            padding: 20px;
+            color: #888;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .carrinho-item { flex-direction: column; text-align: center; }
+            .carrinho-resumo { text-align: center; }
+            .input-group { text-align: center; }
         }
     </style>
 </head>
-<body class="pagina-categoria">
+
+<body>
     <header class="nav-magnolia">
         <div class="nav-container">
-            <div class="nav-top">
-                <div class="nav-search">
-                    <span class="material-symbols-outlined icon_search">search</span>
-                    <input type="text" placeholder="Pesquisar">
-                </div>
-                
-                <div class="nav-logo">
-                    <img src="{{ url_for('static', filename='images/LogoFloricultura.png') }}" alt="Ateliê Magnólia" class="nav-logo-img">
-                </div>
-
-                <div class="nav-account">
-                    <a href="{% if session.user_email %}{{ url_for('historico') }}{% else %}{{ url_for('login') }}{% endif %}" class="nav-account-btn">
-                        <span class="material-symbols-outlined icon_user">person</span>
-                    </a>
-                    <a href="{{ url_for('carrinho') }}" class="nav-account-btn" style="margin-left: 15px;">
-                        <span class="material-symbols-outlined">shopping_cart</span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="nav-divider"></div>
-
-            <nav class="nav-menu">
-                <a href="{{ url_for('produtos_aniversario') }}">Aniversário</a>
-                <a href="{{ url_for('produtos_arranjos') }}">Arranjos</a>
-                <a href="{{ url_for('produtos_buques') }}">Buquês</a>
-                <a href="{{ url_for('produtos_coroa') }}">Coroa</a>
-                <a href="{{ url_for('produtos_kit_romantico') }}">Kit Romântico</a>
-            </nav>
+            <a href="{{ url_for('home') }}" class="btn-voltar">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Continuar Comprando
+            </a>
         </div>
     </header>
 
-    <main class="categoria-main">
-        <section class="categoria-header">
-            <h1 class="categoria-titulo">Meu Carrinho</h1>
-            <div class="categoria-linha"></div>
-        </section>
-
-        {% with messages = get_flashed_messages() %}
+    <main class="carrinho-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-                {% for message in messages %}
-                    <div class="flash-message">{{ message }}</div>
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
 
+        <h1 class="titulo">Seu Carrinho de Compras</h1>
+
         {% if carrinho %}
-        <div class="carrinho-itens">
-            {% for item in carrinho %}
-            <div class="carrinho-item">
-                <img src="{{ url_for('static', filename='images/' + item.imagem) }}" alt="{{ item.nome }}">
-                <div class="item-info">
-                    <h3>{{ item.nome }}</h3>
-                    <p>R$ {{ "%.2f"|format(item.preco) }}</p>
-                    <p>Quantidade: {{ item.quantidade }}</p>
-                    <p>Subtotal: R$ {{ "%.2f"|format(item.preco * item.quantidade) }}</p>
+            <div class="carrinho-lista">
+                {% for item in carrinho %}
+                <div class="carrinho-item">
+                    <img src="{{ url_for('static', filename='images/' + item.imagem) }}" alt="{{ item.nome }}" class="item-img">
+                    
+                    <div class="item-info">
+                        <h3>{{ item.nome }}</h3>
+                        <div class="item-detalhe">
+                            Preço unitário: R$ {{ "%.2f"|format(item.preco) }}
+                        </div>
+                        <div class="item-total">
+                            {{ item.quantidade }}x = R$ {{ "%.2f"|format(item.preco * item.quantidade) }}
+                        </div>
+                    </div>
+
+                    <a href="{{ url_for('remover_carrinho', produto_id=item.id) }}" class="btn-remover">
+                        Remover
+                    </a>
                 </div>
-                <a href="{{ url_for('remover_carrinho', produto_id=item.id) }}" class="btn-remover">Remover</a>
+                {% endfor %}
             </div>
-            {% endfor %}
-            
-            <div class="carrinho-total">
-                <h3>Total: R$ {{ "%.2f"|format(total) }}</h3>
-                <a href="{{ url_for('finalizar_pedido') }}" class="btn-finalizar">Finalizar Pedido</a>
+
+            <div class="carrinho-resumo">
+                <div class="resumo-linha">
+                    <span>Total do Pedido:</span>
+                    <span class="valor-total">R$ {{ "{:,.2f}".format(total) }}</span>
+                </div>
+
+                <form action="{{ url_for('finalizar_pedido') }}" method="POST" class="form-agendamento">
+                    <div class="input-group">
+                        <label for="data_entrega">Agendar Entrega:</label>
+                        <small>🕒 É necessário agendar com 24h de antecedência.</small>
+                        
+                        <input type="datetime-local" id="data_entrega" name="data_entrega" class="input-data" required>
+                    </div>
+
+                    <button type="submit" class="btn-finalizar">
+                        Confirmar e Agendar
+                    </button>
+                </form>
             </div>
-        </div>
+
         {% else %}
-        <div class="carrinho-vazio">
-            <p>Seu carrinho está vazio!</p>
-            <a href="{{ url_for('home') }}" class="btn-continuar">Continuar Comprando</a>
-        </div>
+            <div class="carrinho-vazio">
+                <span class="material-symbols-outlined">shopping_cart_off</span>
+                <h2>Seu carrinho está vazio</h2>
+                <p>Navegue pela loja para encontrar o presente ideal.</p>
+                <a href="{{ url_for('home') }}" class="btn-finalizar" style="max-width: 250px; margin: 20px auto;">Ir para a Loja</a>
+            </div>
         {% endif %}
     </main>
 
     <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-payments">
-                <p>Formas de pagamento</p>
-                <img src="{{ url_for('static', filename='images/pagamento.png') }}" alt="Formas de pagamento">
-            </div>
-            
-            <div class="footer-links">
-                <p>Termos de uso</p>
-                <p>Política de Privacidade</p>
-            </div>
-            
-            <div class="footer-contact">
-                <p>Contato: (11) 0000-0000</p>
-                <p>Endereço: Rua das Flores, 000</p>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>© 2025 MAGNÓLIA</p>
-        </div>
+        <p>© 2024 Floricultura Magnólia - Todos os direitos reservados</p>
     </footer>
 </body>
 </html>

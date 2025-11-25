@@ -1,6 +1,7 @@
 # app/models/data_store.py
 import json
 
+# Usuários para Login
 USUARIOS = {
     'admin@floricultura.com': {
         'senha': '123456',
@@ -16,6 +17,8 @@ USUARIOS = {
     }
 }
 
+# Banco de Dados de Produtos
+# IMPORTANTE: Mantenha os IDs (1, 2, 3, 6, 7, 8) pois seus HTMLs usam eles.
 PRODUTOS = {
     1: {
         'id': 1,
@@ -23,7 +26,8 @@ PRODUTOS = {
         'categoria': 'buques',
         'preco': 120.00,
         'imagem': 'lindo-buque-de-flores.jpg',
-        'descricao': 'Lindo buquê com 12 rosas vermelhas frescas e aromáticas'
+        'descricao': 'Lindo buquê com 12 rosas vermelhas frescas e aromáticas',
+        'quantidade': 10
     },
     2: {
         'id': 2,
@@ -31,31 +35,17 @@ PRODUTOS = {
         'categoria': 'arranjos',
         'preco': 85.00,
         'imagem': 'lindo-arranjo.jpg',
-        'descricao': 'Arranjo vibrante com girassóis que trazem alegria ao ambiente'
+        'descricao': 'Arranjo vibrante com girassóis que trazem alegria ao ambiente',
+        'quantidade': 5
     },
     3: {
         'id': 3,
-        'nome': 'Buquê de Margaridas',
-        'categoria': 'buques',
-        'preco': 65.00,
-        'imagem': 'um-lindo-buque.jpg',
-        'descricao': 'Buquê delicado com margaridas brancas e verdes'
-    },
-    4: {
-        'id': 4,
-        'nome': 'Kit Aniversário Premium',
-        'categoria': 'aniversario',
-        'preco': 150.00,
-        'imagem': 'Kit_Aniversario1.jpg',
-        'descricao': 'Kit completo para aniversário com flores variadas'
-    },
-    5: {
-        'id': 5,
-        'nome': 'Arranjo de Orquídeas',
+        'nome': 'Orquídea Phalaenopsis',
         'categoria': 'arranjos',
-        'preco': 95.00,
+        'preco': 150.00,
         'imagem': 'Kit_Aniversario2.jpg',
-        'descricao': 'Elegante arranjo com orquídeas brancas e roxas'
+        'descricao': 'Elegante arranjo com orquídeas brancas e roxas',
+        'quantidade': 3
     },
     6: {
         'id': 6,
@@ -63,7 +53,8 @@ PRODUTOS = {
         'categoria': 'buques',
         'preco': 110.00,
         'imagem': 'Kit_Aniversario3.jpg',
-        'descricao': 'Buquê sofisticado com lírios brancos e verdes'
+        'descricao': 'Buquê sofisticado com lírios brancos e verdes',
+        'quantidade': 8
     },
     7: {
         'id': 7,
@@ -71,7 +62,8 @@ PRODUTOS = {
         'categoria': 'coroa',
         'preco': 130.00,
         'imagem': 'Kit_Aniversario4.jpg',
-        'descricao': 'Coroa elegante com flores brancas para ocasiões especiais'
+        'descricao': 'Coroa elegante com flores brancas para ocasiões especiais',
+        'quantidade': 2
     },
     8: {
         'id': 8,
@@ -79,33 +71,12 @@ PRODUTOS = {
         'categoria': 'kit_romantico',
         'preco': 180.00,
         'imagem': 'Kit_Aniversario5.jpg',
-        'descricao': 'Kit romântico com rosas vermelhas e chocolates'
+        'descricao': 'Kit romântico com rosas vermelhas e chocolates',
+        'quantidade': 10
     }
 }
 
 PEDIDOS = []
 
-
 def salvar_dados():
-    dados = {
-        'usuarios': USUARIOS,
-        'pedidos': PEDIDOS,
-        'produtos': PRODUTOS
-    }
-    with open('dados.json', 'w', encoding='utf-8') as f:
-        json.dump(dados, f, ensure_ascii=False, indent=2)
-
-
-def carregar_dados():
-    global USUARIOS, PEDIDOS, PRODUTOS
-    try:
-        with open('dados.json', 'r', encoding='utf-8') as f:
-            dados = json.load(f)
-            USUARIOS = dados.get('usuarios', USUARIOS)
-            PEDIDOS = dados.get('pedidos', PEDIDOS)
-            PRODUTOS = dados.get('produtos', PRODUTOS)
-    except FileNotFoundError:
-        pass
-
-
-carregar_dados()
+    pass

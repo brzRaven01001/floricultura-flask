@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    
+    <title>{% block title %}Ateliê Magnólia{% endblock %}</title>
+    
+    <style>
+        /* Ajuste para o Bootstrap não quebrar o seu Menu original */
+        .nav-magnolia a { text-decoration: none; }
+        /* Garante que o conteúdo não fique escondido atrás do menu se ele for fixo */
+        main { min-height: 80vh; padding-top: 20px; }
+    </style>
+</head>
+
+<body>
+    <header class="nav-magnolia">
+        <div class="nav-container">
+            <div class="nav-top">
+                <div class="nav-search">
+                    <span class="material-symbols-outlined icon_search">search</span>
+                    <input type=\"text\" placeholder="Pesquisar">
+                </div>
+                
+                <div class="nav-logo">
+                    <a href="{{ url_for('home') }}">
+                        <img src="{{ url_for('static', filename='images/LogoFloricultura.png') }}" alt="Ateliê Magnólia" class="nav-logo-img">
+                    </a>
+                </div>
+
+                <div class="nav-account">
+                    {% if session.user_email %}
+                        {% if session.get('user_type') == 'admin' %}
+                            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-sm btn-danger text-white me-2" style="text-decoration: none;">
+                                Admin
+                            </a>
+                        {% endif %}
+
+                        <a href="{{ url_for('historico') }}" class="nav-account-btn" title="Minha Conta">
+                            <span class="material-symbols-outlined icon_user">person</span>
+                        </a>
+                        <a href="{{ url_for('carrinho') }}" class="nav-account-btn" title="Carrinho">
+                            <span class="material-symbols-outlined icon_bag">shopping_bag</span>
+                        </a>
+                        <a href="{{ url_for('logout') }}" class="nav-account-btn" title="Sair">
+                            <span class="material-symbols-outlined">logout</span>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" style="color: inherit; text-decoration: none; font-size: 0.9rem;">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="{{ url_for('produtos_aniversario') }}">Aniversário</a>
+                <a href="{{ url_for('produtos_arranjos') }}">Arranjos</a>
+                <a href="{{ url_for('produtos_buques') }}">Buquês</a>
+                <a href="{{ url_for('produtos_coroa') }}">Coroa</a>
+                <a href="{{ url_for('produtos_kit_romantico') }}">Kit Romântico</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-payments">
+                <p>Formas de pagamento</p>
+                <img src="{{ url_for('static', filename='images/pagamento.png') }}" alt="Formas de pagamento">
+            </div>
+            <div class="footer-links">
+                <p>Termos de uso</p>
+                <p>Política de Privacidade</p>
+            </div>
+            <div class="footer-contact">
+                <p>Contato: (11) 0000-0000</p>
+                <p>Endereço: Rua das Flores, 000</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
