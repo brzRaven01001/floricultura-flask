@@ -76,9 +76,17 @@
                         account_circle
                     </span>
 
-                    <div class="perfil-info">
-                        <h3>Olá, {{ session.get('user_name', 'Cliente') }}</h3>
-                        <p>{{ session.get('user_email') }}</p>
+                    <div class="nav-account">
+                        {% if session.user_email %}
+                        <a href="{{ url_for('historico') }}" class="nav-account-btn">
+                            <span class="material-symbols-outlined icon_user">person</span>
+                        </a>
+                        {% else %}
+                        <a href="{{ url_for('login') }}" class="nav-account-btn">
+                            <span class="material-symbols-outlined icon_user">person</span>
+                        </a>
+                        {% endif %}
+                        <a href="{{ url_for('home') }}" class="nav-account-btn">Voltar para Loja</a>
                     </div>
 
                     <nav class="perfil-menu">
