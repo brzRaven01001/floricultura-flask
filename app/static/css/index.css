@@ -1,9 +1,21 @@
+/* ===========================
+   RESET BÁSICO
+=========================== */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+body {
+    background-color: #f5f1e7;
+    font-family: "Georgia", "Times New Roman", serif;
+    color: #3a3539;
+}
+
+/* ===========================
+   VARIÁVEIS
+=========================== */
 :root {
     --nav-bg: #40383f;
     --nav-text: #f5f1e7;
@@ -12,14 +24,19 @@
     --banner-frase-bg: #809678;
 }
 
+/* ===========================
+   NAVBAR / TOPO
+=========================== */
+
 .banner-principal {
     background-color: var(--banner-frase-bg);
 }
 
+/* barra roxa de cima */
 .nav-magnolia {
     background-color: var(--nav-bg);
     color: var(--nav-text);
-    padding: 1.2rem 2rem;
+    padding: 1.2rem 2rem 1.6rem;
 }
 
 .nav-magnolia .nav-container {
@@ -27,24 +44,24 @@
     margin: 0 auto;
 }
 
+/* linha do topo: busca | logo absoluta | login */
 .nav-magnolia .nav-top {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: relative;
     gap: 1.5rem;
+    min-height: 90px;
 }
 
+/* busca (lado esquerdo) – igual Aniversário */
 .nav-magnolia .nav-search {
     display: flex;
     align-items: center;
     gap: 0.6rem;
     flex: 1;
+    min-width: 0;
     max-width: 380px;
-}
-
-.nav-magnolia .icon-search {
-    font-size: 1.4rem;
 }
 
 .nav-magnolia .nav-search input {
@@ -61,34 +78,60 @@
     color: rgba(245, 241, 231, 0.8);
 }
 
+.icon_search {
+    font-size: 30px;
+    color: var(--nav-text);
+}
+
+/* logo CENTRAL, “flutuando” entre busca e login */
 .nav-magnolia .nav-logo {
     position: absolute;
     left: 50%;
-    top: 0 rem;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
     justify-content: center;
-    pointer-events: none;
+    pointer-events: auto;
+    cursor: pointer;
 }
 
 .nav-magnolia .nav-logo-img {
-    height: 170px;
+    height: 135px;
     width: auto;
     object-fit: contain;
     display: block;
 }
 
+/* botão/ícone de usuário (lado direito) */
 .nav-magnolia .nav-account-btn {
     border: none;
     background: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    flex: 0 0 auto;
 }
 
+.nav-account-btn,
+.nav-account-btn * {
+    text-decoration: none !important;
+    border: none;
+}
+
+.nav-account-btn a {
+    color: var(--nav-text);
+}
+
+.icon_user {
+    font-size: 28px;
+    color: var(--nav-text);
+}
+
+/* linha fina sob o topo */
 .nav-magnolia .nav-divider {
-    margin-top: 1.2rem;
+    margin-top: 1.4rem;
     display: flex;
     align-items: center;
 }
@@ -100,6 +143,7 @@
     background: var(--nav-line);
     flex: 1;
 }
+
 .nav-magnolia .nav-divider::before {
     margin-right: 5rem;
 }
@@ -108,6 +152,7 @@
     margin-left: 5rem;
 }
 
+/* menu de categorias */
 .nav-magnolia .nav-menu {
     margin-top: 1.1rem;
     display: flex;
@@ -122,23 +167,13 @@
     letter-spacing: 0.08em;
     text-decoration: none;
     color: var(--nav-text);
-    text-transform: none;
 }
 
 .nav-magnolia .nav-menu a:hover {
     text-decoration: underline;
 }
 
-.icon_search {
-    font-size: 30px;
-    color: var(--nav-text);
-}
-
-.icon_user {
-    font-size: 35px;
-    color: var(--nav-text);
-}
-
+/* material icons */
 .material-symbols-outlined {
     font-family: "Material Symbols Outlined";
     font-style: normal;
@@ -148,17 +183,27 @@
     text-transform: none;
 }
 
+/* ===========================
+   BANNER PRINCIPAL
+=========================== */
+
+/* altura em desktop */
 .imagem-banner-wrapper {
-    height: 120vh;
+    height: 70vh;
+    min-height: 420px;
+    overflow: hidden;
 }
 
+/* imagem RETA embaixo (sem curva) */
 .imagem-banner {
     width: 100%;
     height: 100%;
     display: block;
     object-fit: cover;
+    border-radius: 0;
 }
 
+/* faixa verde com frase */
 .faixa-frase {
     background-color: var(--banner-frase-bg);
     color: #fdfaf4;
@@ -181,6 +226,10 @@
 .faixa-frase-2 {
     margin-top: 0.6rem;
 }
+
+/* ===========================
+   DIVISOR POPULARES
+=========================== */
 
 .pop-divider {
     margin: 2.5rem auto 2.5rem;
@@ -205,6 +254,10 @@
     margin-left: 5rem;
 }
 
+/* ===========================
+   SEÇÃO POPULARES
+=========================== */
+
 .secao-populares {
     background-color: #cbbb8e;
 }
@@ -217,8 +270,9 @@
     font-size: 1.1rem;
 }
 
+/* área clara com cards + setas */
 .pop-slider {
-    background-color: #ffffff;
+    background-color: #f0e7cf;
     padding: 2.5rem 2rem 3rem;
     display: flex;
     align-items: center;
@@ -263,8 +317,12 @@
     border-radius: 6px;
 }
 
+/* ===========================
+   RODAPÉ
+=========================== */
+
 .site-footer {
-    background-color: var(--nav-bg); 
+    background-color: var(--nav-bg);
     color: var(--nav-text);
     font-family: "Times New Roman", serif;
     font-size: 15px;
@@ -291,13 +349,17 @@
 }
 
 .footer-bottom {
-    border-top: 1px solid var(--nav-bg);
     max-width: 1100px;
     margin: 0 auto;
     padding: 0.7rem 1.5rem 0.9rem;
     text-align: center;
     font-size: 0.8rem;
+    border-top: 1px solid rgba(245, 241, 231, 0.4);
 }
+
+/* ===========================
+   PÁGINA DE CATEGORIA (se usar na home)
+=========================== */
 
 .pagina-categoria {
     background-color: #f7f0d5;
@@ -322,7 +384,7 @@
 }
 
 .categoria-linha {
-    width: 260px; 
+    width: 260px;
     height: 2px;
     background-color: #3a3539;
 }
@@ -336,13 +398,53 @@
 
 .categoria-card {
     width: 100%;
-    aspect-ratio: 4 / 4.2; 
-    background-color: #a96f6f;
+    aspect-ratio: 4 / 4.2;
+    background-color: #a96f6f; /* placeholder */
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-@media (max-width: 768px) {
+/* ===========================
+   RESPONSIVO
+=========================== */
+
+/* NAV + FOOTER responsivos igual Aniversário */
+@media (max-width: 1100px) {
+
+    /* NAVBAR MOBILE/TABLET */
+    .nav-magnolia {
+        padding: 1rem 1rem 1.4rem;
+    }
+
+    .nav-magnolia .nav-top {
+        flex-direction: column;
+        align-items: center;
+        row-gap: 0.6rem;
+        min-height: auto;
+    }
+
+    /* logo volta para o fluxo normal no mobile */
+    .nav-magnolia .nav-logo {
+        position: static;
+        transform: none;
+        margin-bottom: 0.2rem;
+    }
+
+    .nav-magnolia .nav-logo-img {
+        height: 120px;
+    }
+
+    .nav-magnolia .nav-search {
+        width: 100%;
+        max-width: 320px;
+        order: 3;
+    }
+
+    .nav-magnolia .nav-menu {
+        gap: 1.5rem;
+    }
+
+    /* RODAPÉ empilhado em telas menores */
     .footer-container {
         flex-direction: column;
         align-items: center;
@@ -352,49 +454,35 @@
     .footer-bottom {
         padding-inline: 1rem;
     }
+
+    /* grade categoria se aparecer na home */
+    .categoria-grid {
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
-@media (max-width: 768px) {
-
-    .imagem-banner-wrapper {
-        max-height: 260px;
+/* ajustes extras para telas bem pequenas */
+@media (max-width: 480px) {
+    .categoria-grid {
+        grid-template-columns: 1fr;
     }
 
     .faixa-frase {
-        padding: 1.8rem 1rem 2.2rem;
+        padding: 1.5rem 1rem 2rem;
         font-size: 1rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .nav-magnolia {
-        padding: 0.9rem 1rem;
+        max-width: 90%;
     }
 
-    .nav-magnolia .nav-top {
-        flex-direction: column;
-        align-items: stretch;
+    .imagem-banner-wrapper {
+        height: auto;
+        max-height: none;
+        min-height: 0;
+        overflow: visible;
     }
 
-    .nav-magnolia .nav-logo {
-        position: static;
-        transform: none;
-        margin-bottom: 0.4rem;
-    }
-
-    .nav-magnolia .nav-account-btn {
-        align-self: flex-end;
-        margin-top: 0.4rem;
-    }
-
-    .nav-magnolia .nav-search {
+    .imagem-banner {
         width: 100%;
-        max-width: none;
-        order: 3;
-    }
-
-    .nav-magnolia .nav-menu {
-        gap: 1.5rem;
-        font-size: 0.95rem;
+        height: auto;
+        object-fit: cover;
     }
 }

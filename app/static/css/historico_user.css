@@ -62,7 +62,7 @@
     width: 80px !important;
     height: 80px !important;
     line-height: 80px !important;
-    color: #809678;
+    color: #333;
     margin-bottom: 15px;
     display: block; /* Garante que o span ocupe espaço */
 }
@@ -102,7 +102,7 @@
 
 .menu-item:hover, .menu-item.ativo {
     background-color: #f0f4ef;
-    color: #809678;
+    color: #597350;
     font-weight: bold;
 }
 
